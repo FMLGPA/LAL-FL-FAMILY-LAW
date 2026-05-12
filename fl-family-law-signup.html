@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FL Family Law AI Sign Up — Legal Authority Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#0A0A0A;color:#F7F5F0;font-family:'Barlow',sans-serif;font-size:14px;line-height:1.6;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:#0A0A0A;}::-webkit-scrollbar-thumb{background:#333;border-radius:2px;}
+.colorbar{height:4px;background:linear-gradient(to right,#FF1F8E 25%,#FF6B00 25% 50%,#C8D400 50% 75%,#00B5B8 75%);position:fixed;top:0;left:0;right:0;z-index:1000;}
+.layout{display:flex;padding-top:4px;min-height:calc(100vh - 4px);}
+
+/* SIDEBAR */
+.sidebar{width:210px;min-width:210px;background:#111;border-right:1px solid #252525;position:fixed;top:4px;left:0;height:calc(100vh - 4px);display:flex;flex-direction:column;overflow-y:auto;z-index:100;}
+.sidebar-logo{padding:18px 16px 14px;border-bottom:1px solid #252525;}
+.sidebar-logo h1{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:#F7F5F0;line-height:1.1;}
+.sidebar-logo .tag{font-size:8px;color:#FF1F8E;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-top:4px;}
+.sidebar-logo .url{font-size:9px;color:#2a2a2a;margin-top:5px;font-family:'JetBrains Mono',monospace;}
+.nav-label{font-size:7px;text-transform:uppercase;letter-spacing:2px;color:#2a2a2a;font-weight:700;padding:8px 16px 4px;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:7px 16px;cursor:pointer;border-left:3px solid transparent;color:#555;font-size:11px;font-weight:500;transition:all 0.12s;}
+.nav-item:hover{color:#F7F5F0;background:#1a1a1a;}
+.nav-item.active{color:#F7F5F0;background:#1a1a1a;border-left-color:#FF1F8E;}
+.nav-dot{width:5px;height:5px;border-radius:50%;background:#2a2a2a;flex-shrink:0;}
+.nav-item.active .nav-dot{background:#FF1F8E;}
+.sidebar-footer{padding:12px 16px;border-top:1px solid #252525;font-size:8px;color:#2a2a2a;line-height:1.6;margin-top:auto;}
+
+/* MAIN */
+.main{margin-left:210px;flex:1;padding:28px 32px;max-width:calc(100vw - 465px);min-width:0;}
+
+/* PRICING PANEL */
+.pricing-panel{width:255px;min-width:255px;background:#111;border-left:1px solid #252525;position:sticky;top:4px;height:calc(100vh - 4px);display:flex;flex-direction:column;overflow:hidden;}
+.panel-header{padding:14px 15px 11px;border-bottom:1px solid #252525;}
+.panel-header .label{font-size:8px;text-transform:uppercase;letter-spacing:2px;color:#FF1F8E;font-weight:700;margin-bottom:3px;}
+.panel-header h2{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;color:#F7F5F0;}
+.panel-body{flex:1;overflow-y:auto;padding:12px 15px;}
+.panel-empty{text-align:center;padding:28px 0;color:#333;font-size:11px;line-height:1.6;}
+.panel-section-label{font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:#888;margin-bottom:7px;font-weight:700;}
+.line-item{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:7px;padding-left:8px;}
+.line-item .li-name{font-size:10px;color:#F7F5F0;font-weight:600;line-height:1.3;}
+.line-item .li-sub{font-size:8px;margin-top:1px;}
+.line-item .li-price{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;white-space:nowrap;}
+.discount-box{margin-top:12px;padding:9px 10px;background:#0d1a0d;border-left:3px solid #C8D400;border-radius:2px;}
+.discount-box .dl{font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:#C8D400;font-weight:700;margin-bottom:3px;}
+.discount-box .dr{display:flex;justify-content:space-between;align-items:center;}
+.discount-box .dt{font-size:10px;color:#aaa;}
+.discount-box .dv{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;color:#C8D400;}
+.ethics-box{margin-top:9px;padding:7px 9px;background:#0a1a1a;border:1px solid rgba(0,181,184,0.2);border-radius:2px;}
+.ethics-box .et{font-size:9px;color:#00B5B8;font-weight:600;}
+.ethics-box .es{font-size:8px;color:#444;margin-top:2px;}
+.panel-footer{border-top:1px solid #252525;padding:12px 15px;}
+.subtotal-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+.subtotal-row .sr-label{font-size:9px;text-transform:uppercase;letter-spacing:0.8px;font-weight:600;}
+.subtotal-row .sr-val{font-family:'Barlow Condensed',sans-serif;font-size:12px;}
+.total-row{border-top:1px solid #2e2e2e;margin-top:7px;padding-top:7px;display:flex;justify-content:space-between;align-items:center;}
+.total-row .tr-label{font-size:11px;color:#F7F5F0;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;}
+.total-row .tr-val{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;color:#FF1F8E;}
+.total-note{font-size:8px;color:#333;margin-top:3px;line-height:1.4;}
+.dl-btn{margin-top:11px;width:100%;padding:10px;background:#FF1F8E;color:#000;border:none;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:opacity 0.15s;}
+.dl-btn:hover{opacity:0.85;}
+.dl-note{font-size:8px;color:#333;text-align:center;margin-top:5px;line-height:1.5;}
+
+/* HERO */
+.hero{margin-bottom:52px;}
+.hero .pre{font-size:8px;text-transform:uppercase;letter-spacing:3px;color:#FF1F8E;font-weight:700;margin-bottom:10px;}
+.hero h1{font-family:'Barlow Condensed',sans-serif;font-size:42px;font-weight:900;color:#F7F5F0;line-height:1.0;margin-bottom:10px;letter-spacing:-0.5px;}
+.hero h1 span{color:#FF1F8E;}
+.hero p{font-size:13px;color:#999;max-width:520px;line-height:1.7;margin-bottom:18px;}
+.stats{display:flex;gap:10px;flex-wrap:wrap;}
+.stat{background:#161616;border:1px solid #252525;padding:10px 14px;}
+.stat .sn{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;}
+.stat .sl{font-size:9px;color:#888;margin-top:1px;}
+
+/* SECTIONS */
+.section{margin-bottom:52px;scroll-margin-top:20px;}
+.section-label{font-size:8px;text-transform:uppercase;letter-spacing:2.5px;font-weight:700;margin-bottom:7px;padding-bottom:4px;border-bottom:1px solid #252525;}
+.section h2{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;color:#F7F5F0;margin-bottom:14px;line-height:1.1;}
+.section p.intro{font-size:12px;color:#888;max-width:560px;line-height:1.7;margin-bottom:18px;}
+
+/* CARDS */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;}
+.card{background:#161616;border:1px solid #252525;padding:14px 16px;border-radius:2px;}
+.card .ci{font-size:18px;margin-bottom:7px;}
+.card h3{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:#F7F5F0;margin-bottom:5px;}
+.card p{font-size:11px;color:#777;line-height:1.6;}
+
+/* LAYER CARDS */
+.layer{background:#161616;border:1px solid #252525;border-radius:2px;padding:13px 16px;margin-bottom:9px;}
+.layer-inner{display:flex;gap:13px;align-items:flex-start;}
+.layer-num{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;line-height:1;min-width:28px;}
+.layer h3{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:#F7F5F0;margin-bottom:4px;}
+.layer p{font-size:11px;color:#777;line-height:1.6;}
+
+/* SYSTEM CARDS */
+.cat-label{font-size:8px;text-transform:uppercase;letter-spacing:2px;color:#888;font-weight:700;margin-bottom:9px;padding-bottom:3px;border-bottom:1px solid #252525;}
+.cat-group{margin-bottom:22px;}
+.sys-card{background:#161616;border:1px solid #252525;border-left:3px solid #2a2a2a;border-radius:3px;padding:13px 14px;cursor:pointer;transition:all 0.15s;position:relative;margin-bottom:0;}
+.sys-card:hover{background:#1a1a1a;}
+.sys-card.selected{background:#1a1a1a;}
+.sys-card.disabled{opacity:0.35;cursor:not-allowed;}
+.sys-card .check{position:absolute;top:10px;right:10px;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:#000;font-weight:900;display:none;}
+.sys-card.selected .check{display:flex;}
+.badge{font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#000;padding:1px 6px;display:inline-block;border-radius:2px;margin-bottom:5px;}
+.sys-name{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;line-height:1.2;margin-bottom:2px;}
+.sys-price{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:900;margin-bottom:6px;}
+.sys-desc{font-size:11px;color:#999;line-height:1.5;margin-bottom:8px;}
+.toggle-btn{background:transparent;border:1px solid #2e2e2e;color:#888;font-size:9px;padding:3px 9px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;font-family:'Barlow',sans-serif;border-radius:2px;}
+.toggle-btn:hover{color:#F7F5F0;}
+.includes{margin-top:9px;list-style:none;}
+.includes li{font-size:10px;color:#777;padding:2px 0 2px 12px;position:relative;line-height:1.5;}
+.includes li::before{content:"→";position:absolute;left:0;font-size:9px;}
+
+/* COACHING CARDS */
+.coach-card{background:#161616;border:1px solid #252525;border-left:3px solid #2a2a2a;border-radius:3px;padding:14px 16px;cursor:pointer;transition:all 0.15s;position:relative;}
+.coach-card:hover{background:#1a1a1a;}
+.coach-card.selected{background:#1a1a1a;}
+.coach-card .check{position:absolute;top:10px;right:10px;width:18px;height:18px;border-radius:50%;display:none;align-items:center;justify-content:center;font-size:10px;color:#000;font-weight:900;}
+.coach-card.selected .check{display:flex;}
+.coach-type{font-size:8px;text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:3px;}
+.coach-name{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;margin-bottom:2px;}
+.coach-includes{list-style:none;margin-top:9px;}
+.coach-includes li{font-size:10px;color:#888;padding:2px 0 2px 11px;position:relative;line-height:1.5;}
+.coach-includes li::before{content:"→";position:absolute;left:0;font-size:9px;}
+.sessions{display:flex;gap:7px;margin-top:11px;}
+.session{background:#111;border:1px solid #2e2e2e;padding:4px 7px;text-align:center;flex:1;border-radius:2px;}
+.session .sp{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:#C8D400;}
+.session .sl2{font-size:8px;color:#888;}
+
+/* DISCOUNT TABLE */
+.disc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+.disc-card{background:#161616;border:1px solid #252525;padding:14px 16px;border-radius:2px;}
+.disc-card h4{font-size:8px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:9px;}
+.disc-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #2e2e2e;}
+.disc-row .dr-s{font-size:11px;color:#aaa;}
+.disc-row .dr-d{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;}
+
+/* ALERTS */
+.alert{padding:7px 13px;border-radius:2px;margin-bottom:16px;font-size:10px;line-height:1.6;}
+
+/* CTA GRID */
+.cta-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:18px;}
+.cta-card{background:#161616;border:1px solid #252525;padding:12px 14px;border-radius:2px;}
+.cta-type{font-size:8px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:3px;}
+.cta-title{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;color:#F7F5F0;margin-bottom:3px;}
+.cta-desc{font-size:10px;color:#666;margin-bottom:7px;line-height:1.5;}
+.cta-link{font-size:9px;font-family:'JetBrains Mono',monospace;}
+.cta-box{background:#1C1C1C;border:1px solid #252525;border-left:4px solid #FF1F8E;padding:14px 18px;border-radius:2px;}
+.cta-box h3{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;color:#F7F5F0;margin-bottom:5px;}
+.cta-box p{font-size:11px;color:#666;line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="colorbar"></div>
+<div class="layout">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <h1>LEGAL AUTHORITY LAB</h1>
+    <div class="tag">AI Smart Workflow Systems</div>
+    <div class="url">legalauthoritylab.com</div>
+  </div>
+  <div class="nav-label">Sections</div>
+  <div class="nav-item active" onclick="scrollTo('about')" id="nav-about"><div class="nav-dot"></div>What Is LAL</div>
+  <div class="nav-item" onclick="scrollTo('built')" id="nav-built"><div class="nav-dot"></div>How It Was Built</div>
+  <div class="nav-item" onclick="scrollTo('works')" id="nav-works"><div class="nav-dot"></div>How It Works</div>
+  <div class="nav-item" onclick="scrollTo('systems')" id="nav-systems"><div class="nav-dot"></div>Select Your Systems</div>
+  <div class="nav-item" onclick="scrollTo('coaching')" id="nav-coaching"><div class="nav-dot"></div>Select Coaching</div>
+  <div class="nav-item" onclick="scrollTo('discounts')" id="nav-discounts"><div class="nav-dot"></div>Discount Structure</div>
+  <div class="nav-item" onclick="scrollTo('engage')" id="nav-engage"><div class="nav-dot"></div>Get Started</div>
+  <div class="sidebar-footer">Leisa Wintz, MS, Esq.<br/>FL Bar No. 64399<br/>18 years FL family law</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="pre">— Legal Authority Lab</div>
+    <h1>AI BUILT FOR LAW FIRMS.<br/><span>POWERED BY REAL LAWYERS.</span></h1>
+    <p>Not built by technologists who have never set foot in a courtroom. Built inside a real, active Florida family law firm — tested on real cases, real clients, real deadlines before it was ever offered to anyone else.</p>
+    <div class="stats">
+      <div class="stat"><div class="sn" style="color:#FF1F8E">120</div><div class="sl">Attorneys Responded</div></div>
+      <div class="stat"><div class="sn" style="color:#FF6B00">70</div><div class="sl">Attended Live Demo</div></div>
+      <div class="stat"><div class="sn" style="color:#C8D400">67</div><div class="sl">Joined Waitlist</div></div>
+      <div class="stat"><div class="sn" style="color:#00B5B8">24hrs</div><div class="sl">After One Post</div></div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="section" id="about">
+    <div class="section-label" style="color:#FF6B00">— What Legal Authority Lab Is</div>
+    <h2>Not a Software Company.<br/>A Practice Operating System.</h2>
+    <div class="grid2">
+      <div class="card"><div class="ci">⚖️</div><h3>Built By a Practicing Attorney</h3><p>Leisa Wintz, MS, Esq. — 18 years of Florida family law. Every workflow tested inside a real, active firm on real cases before it was ever offered to anyone else.</p></div>
+      <div class="card"><div class="ci">🔬</div><h3>Tested Before It Was Sold</h3><p>LAL started as an internal firm tool. It ran on actual client files and actual deadlines for 18 months inside Family Matters Law Group before it became a product.</p></div>
+      <div class="card"><div class="ci">🏛️</div><h3>Exclusive to Legal Professionals</h3><p>LAL serves attorneys, law firms, and paralegals only. Never pro se litigants. Built for professionals who understand what they're running.</p></div>
+      <div class="card"><div class="ci">🔒</div><h3>One-Time Purchase. No Subscriptions.</h3><p>You buy it once. It lives in your Claude Project. No monthly fees, no platform lock-in, no subscription that disappears if you stop paying. Yours.</p></div>
+    </div>
+  </div>
+
+  <!-- HOW BUILT -->
+  <div class="section" id="built">
+    <div class="section-label" style="color:#FF6B00">— How It Was Built</div>
+    <h2>18 Years of Case Files.<br/>Turned Into Workflow Architecture.</h2>
+    <p class="intro">Built from actual FMLG case files — pleadings, financial affidavits, discovery productions, mediation agreements, final judgments. Anonymized, structured, and converted into workflow logic. Not templates. Workflow architectures that execute from embedded knowledge.</p>
+    <div class="layer" style="border-left:4px solid #FF1F8E"><div class="layer-inner"><div class="layer-num" style="color:#FF1F8E">01</div><div><h3>Universal Intake Layer</h3><p>Every client, every matter type runs through the same onboarding, retainer, and case setup layer before anything else fires. Consistent from day one.</p></div></div></div>
+    <div class="layer" style="border-left:4px solid #FF6B00"><div class="layer-inner"><div class="layer-num" style="color:#FF6B00">02</div><div><h3>Master Document Library</h3><p>One master document per document type containing all potential provisions. Single source of truth. When Florida law changes, it changes once.</p></div></div></div>
+    <div class="layer" style="border-left:4px solid #C8D400"><div class="layer-inner"><div class="layer-num" style="color:#C8D400">03</div><div><h3>Matter-Type Workflow Roadmaps</h3><p>Case-type specific roadmaps that reference the library. The roadmap reads current case stage and drives the workflow matrix. Every workflow that fires is downstream of what the roadmap says the case needs.</p></div></div></div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="section" id="works">
+    <div class="section-label" style="color:#FF6B00">— How It Works</div>
+    <h2>Workflow Intelligence.<br/>Not Prompts.</h2>
+    <p class="intro">Each system is built from skills — structured workflow architectures that define exactly what triggers them, what inputs they need, what outputs they produce, who they're assigned to, and what controls govern them.</p>
+    <div class="grid3">
+      <div class="card"><div class="ci">⚡</div><h3 style="color:#FF1F8E">Auto-Triggering</h3><p>Skills fire automatically. Mention a judge — judicial procedures fires a live search. Upload a financial affidavit — FA review starts. The system knows.</p></div>
+      <div class="card"><div class="ci">🔗</div><h3 style="color:#FF6B00">Sequential Pipelines</h3><p>Every stage feeds context forward to the next. The FA cross-check knows what the preliminary review found. Nothing starts cold.</p></div>
+      <div class="card"><div class="ci">🛑</div><h3 style="color:#C8D400">QC Gates</h3><p>No stage advances without clearance. Resolvable errors flag to staff. Legal judgment calls escalate to the attorney. Nothing slips through.</p></div>
+      <div class="card"><div class="ci">👥</div><h3 style="color:#00B5B8">Role-Stratified Lanes</h3><p>Every task belongs to a specific staff lane with its own permissions and authorization gate. The system enforces the workflow.</p></div>
+      <div class="card"><div class="ci">📋</div><h3 style="color:#FF1F8E">Compliance Built In</h3><p>Pre-filing compliance checks on every court document. AI disclosure blocks pre-inserted. Florida SC form requirements cross-checked on every draft.</p></div>
+      <div class="card"><div class="ci">🏗️</div><h3 style="color:#FF6B00">Structured Outputs</h3><p>Every output is a structured file — Word documents, Excel worksheets, PDFs. Formatted to firm standards. Ready for attorney review.</p></div>
+    </div>
+  </div>
+
+  <!-- SYSTEMS -->
+  <div class="section" id="systems">
+    <div class="section-label" style="color:#FF1F8E">— AI Smart Workflow Systems</div>
+    <h2>Select Your Systems.</h2>
+    <p class="intro">Click any system to add it to your selection. Pricing updates in real time in the panel on the right. Discounts apply automatically based on how many you choose and whether coaching is added.</p>
+    <div class="alert" style="background:#0a1a1a;border-left:3px solid #00B5B8;color:#00B5B8;">✓ Ethics Workflow included with every system — pre-installed, no add-on fee, no exceptions.</div>
+    <div id="systems-container"></div>
+  </div>
+
+  <!-- COACHING -->
+  <div class="section" id="coaching">
+    <div class="section-label" style="color:#FF6B00">— Coaching</div>
+    <h2>Self-Install or Fully Installed.<br/>Your Choice.</h2>
+    <p class="intro">Every system is self-install. Adding coaching unlocks the higher discount tier and gets Leisa building your Command Center and customizing to your practice.</p>
+    <div class="alert" style="background:#1a1000;border-left:3px solid #FF6B00;color:#FF6B00;">Adding coaching bumps your system discount — 1 system gets 10% off, 4+ systems get 30% off. At contract signing only.</div>
+    <div class="grid2" id="coaching-container"></div>
+    <div class="card" style="text-align:center;color:#444;font-size:11px;">No coaching — self-install only. Multi-system discounts still apply at 2+ systems.</div>
+  </div>
+
+  <!-- DISCOUNTS -->
+  <div class="section" id="discounts">
+    <div class="section-label" style="color:#C8D400">— Discount Structure</div>
+    <h2>More Systems. Bigger Discount.</h2>
+    <div class="disc-grid">
+      <div class="disc-card" style="border-left:4px solid #C8D400">
+        <h4 style="color:#C8D400">Systems Only</h4>
+        <div class="disc-row"><span class="dr-s">2 systems</span><span class="dr-d" style="color:#C8D400">10% off</span></div>
+        <div class="disc-row"><span class="dr-s">3 systems</span><span class="dr-d" style="color:#C8D400">15% off</span></div>
+        <div class="disc-row"><span class="dr-s">4+ systems</span><span class="dr-d" style="color:#C8D400">20% off</span></div>
+      </div>
+      <div class="disc-card" style="border-left:4px solid #FF6B00">
+        <h4 style="color:#FF6B00">Systems + Coaching Retainer</h4>
+        <div class="disc-row"><span class="dr-s">1 system</span><span class="dr-d" style="color:#FF6B00">10% off</span></div>
+        <div class="disc-row"><span class="dr-s">2 systems</span><span class="dr-d" style="color:#FF6B00">20% off</span></div>
+        <div class="disc-row"><span class="dr-s">3 systems</span><span class="dr-d" style="color:#FF6B00">25% off</span></div>
+        <div class="disc-row"><span class="dr-s">4+ systems</span><span class="dr-d" style="color:#FF6B00">30% off</span></div>
+      </div>
+    </div>
+    <p style="font-size:10px;color:#333;text-align:center;">Discount at contract signing only · Financial Discovery Advanced is a $1,500 upgrade for Core buyers only</p>
+  </div>
+
+  <!-- ENGAGE -->
+  <div class="section" id="engage">
+    <div class="section-label" style="color:#00B5B8">— Get Started</div>
+    <h2>Ready to Run Your Firm<br/>Like a System?</h2>
+    <div class="cta-grid">
+      <div class="cta-card"><div class="cta-type" style="color:#00B5B8">Free</div><div class="cta-title">Exploration Call</div><div class="cta-desc">30 min. Map out what makes sense for your firm.</div><div class="cta-link" style="color:#00B5B8">calendly.com/leisawintz/legal-authority-lab</div></div>
+      <div class="cta-card"><div class="cta-type" style="color:#00B5B8">Free</div><div class="cta-title">Private Demo</div><div class="cta-desc">30–45 min. Bring a real file. See it run live.</div><div class="cta-link" style="color:#00B5B8">calendly.com/leisawintz/lal--demo</div></div>
+      <div class="cta-card"><div class="cta-type" style="color:#FF6B00">$399</div><div class="cta-title">Working Demo</div><div class="cta-desc">Run a system on your own real client file.</div><div class="cta-link" style="color:#FF6B00">calendly.com/leisawintz/working-demo</div></div>
+      <div class="cta-card"><div class="cta-type" style="color:#FF6B00">Paid — Applied to Phase One</div><div class="cta-title">Custom Build Strategy</div><div class="cta-desc">2 hrs. Scoped per firm. Any state, any practice area.</div><div class="cta-link" style="color:#FF6B00">calendly.com/leisawintz/lal-custom-ai-strategy</div></div>
+    </div>
+    <div class="cta-box">
+      <h3>Select your systems and coaching above, then download your summary.</h3>
+      <p>Email your downloaded selection to <strong style="color:#FF1F8E">leisa@legalauthoritylab.com</strong> and she will send the engagement agreement and payment link. Payment plans available — just ask.</p>
+    </div>
+  </div>
+
+</div><!-- end main -->
+
+<!-- PRICING PANEL -->
+<div class="pricing-panel">
+  <div class="panel-header">
+    <div class="label">Your Selection</div>
+    <h2>Investment Summary</h2>
+  </div>
+  <div class="panel-body" id="panel-body">
+    <div class="panel-empty">Select systems and coaching on the left to build your package.</div>
+  </div>
+  <div class="panel-footer" id="panel-footer" style="display:none">
+    <div id="subtotals"></div>
+    <div class="total-row"><div class="tr-label">Total</div><div class="tr-val" id="total-val">$0</div></div>
+    <div class="total-note">Discount at contract signing only. One-time purchase, no subscriptions.</div>
+    <button class="dl-btn" onclick="generatePDF()">Download My Selection →</button>
+    <div class="dl-note">Opens printable summary. Save as PDF,<br/>email to leisa@legalauthoritylab.com</div>
+  </div>
+</div>
+
+</div><!-- end layout -->
+
+<script>
+const PINK="#FF1F8E",ORANGE="#FF6B00",LIME="#C8D400",TEAL="#00B5B8";
+
+const SYSTEMS=[
+  {id:"disco-core",name:"Financial Discovery System",sub:"Core",price:5000,color:PINK,badge:"FLAGSHIP",category:"Discovery",desc:"Complete FA pipeline built on Rule 12.285. Nine sequential stages with QC gates — no stage advances without clearance.",includes:["Document intake & folder organization gate","FA preliminary review before supporting docs arrive","FA cross-check — affidavit vs. supporting documents","Standard income analysis","OP production audit against Rule 12.285","Case-wide gap analysis & mediation readiness memo","Equitable distribution chart + equalizer model","Settlement scenario modeling (3 scenarios)","Running discovery tracker","QC gate after every stage"]},
+  {id:"disco-adv",name:"Financial Discovery System",sub:"Advanced",price:1500,color:ORANGE,badge:"UPGRADE — Core buyers only",upgradeOf:"disco-core",category:"Discovery",desc:"When income gets complicated or the case gets contested. Advanced income analysis plus the full contested discovery toolkit.",includes:["Advanced income analysis — variable, self-employment, bonus averaging, rental, undisclosed sources","Interrogatories","Requests for Production","Requests for Admission","Subpoenas","Deficiency letters","Motions to compel"]},
+  {id:"gal",name:"GAL System",sub:null,price:2500,color:TEAL,category:"Practice",desc:"Complete Guardian ad Litem workflow from appointment through final report. Sequential — nothing goes to court without passing QC.",includes:["Case intake — reads appointment order, builds intake profile","Investigation tracker — live log with completeness standards","Source interview processor — structured summaries after every contact","Chronology builder — source-attributed timeline","Report drafter — interim, second, and final reports","Document drafter — GAL contract, motions, proposed orders, correspondence","QC gate — audits every document before it leaves your desk"]},
+  {id:"draft-core",name:"Drafting System",sub:"Core",price:1500,color:LIME,category:"Drafting",desc:"The everyday output layer. Correspondence, notices, basic motions — drafted to standards with compliance checks built in.",includes:["Client correspondence","Bench correspondence — judges and judicial assistants","Opposing counsel correspondence","Third-party correspondence","Notices — all types","Basic motions","Pre-filing compliance check on every output","AI disclosure block pre-inserted in every filing","Judicial procedures live search — fires on any judge reference"]},
+  {id:"draft-adv",name:"Drafting System",sub:"Advanced",price:2500,color:LIME,category:"Drafting",desc:"Full matter lifecycle management plus drafting. Runs the case from intake through final judgment for each matter type.",includes:["Dissolution — petitioner side, full lifecycle","Dissolution — respondent side, 20-day deadline treated as jurisdictional","Modification — parenting plan, support, alimony","Paternity — establishment, parenting plan, support","Injunctions","Relocation","Temporary relief motions","Post-judgment proceedings","Posture selection + modular clause libraries","QC hard stops + options panel on every draft"]},
+  {id:"contempt",name:"Contempt System",sub:null,price:599,color:ORANGE,category:"Practice",desc:"Both sides of a Florida family law contempt matter. Runs independently or alongside other systems.",includes:["Movant — enforcement strategy, four-element proof analysis, motion drafting, remedy selection, purge conditions, hearing prep","Defense — defense identification, inability-to-comply analysis, response drafting, hearing preparation","Proposed order production for both tracks","Hearing checklist for both tracks"]},
+  {id:"mediation",name:"Mediation & Settlement System",sub:null,price:4000,color:PINK,category:"Litigation",desc:"Advocate track. Complete session management through signed agreement — with every settlement document produced inside the workflow.",includes:["Caucus notes — structured, real-time","Offer tracking with counter-offer history","Scenario modeling — run financial outcomes before accepting","Alimony assessment under 2023 § 61.08 reform","Child support guidelines worksheet — Word + FLS-format PDF","Parenting plan drafter","MSA drafter — all required sections","Impasse strategy + closeout checklist"]},
+  {id:"mediator",name:"Mediator System",sub:null,price:1500,color:TEAL,category:"Litigation",desc:"Neutral track only. For the Florida family law mediator running the session — not the advocate.",includes:["Session intake and issue framing","Caucus notes","Offer tracking","Impasse strategy","Settlement agreement drafting","Mediation report filing","Invoicing"]},
+  {id:"research",name:"Research System",sub:null,price:899,color:LIME,category:"Legal Research",desc:"Florida family law research backbone. Caselaw comes from your project files only — never AI memory, never the internet.",includes:["Substantive research — all Florida family law matter types","Issue spotting and fact pattern analysis","Legal assessment memos","Caselaw protocol enforced — project files only, attorney verification required","Judicial procedures — live search on every judge reference","Written research memos ready for attorney review"]},
+  {id:"roadmap",name:"Roadmap & Case Management System",sub:null,price:1500,color:TEAL,category:"Operations",desc:"Versioned case roadmap plus full closing workflow. Reads where the case is and surfaces what comes next.",includes:["Versioned roadmap generator — reads current stage, drives the workflow matrix","Next actions, open issues, and attorney flags surfaced at every stage","Full closing workflow — every closure type covered","Full rep, limited scope, DIY, flat-fee, substitution, withdrawal, and administrative closures","Attorney approval hard stop before any letter goes out","Roadmap versioned and saved to output folder"]},
+  {id:"operations",name:"Firm Operations System",sub:null,price:2500,color:ORANGE,badge:"CUSTOM — Strategy call required",category:"Operations",custom:true,desc:"Infrastructure layer. Custom-scoped per firm. The foundation the entire system runs on.",includes:["Case launch workflow — mandatory first action in every new client project","New client onboarding — maps service type, forms, strategy, initial pleadings","Retainer builder — all contract types, Word doc ready for Adobe Sign","Brand kit — voice, colors, structure, CTAs on every non-court output","How-to guide generator — fires on any process question","Staff lane configuration — role-stratified, QC gates between every lane"]}
+];
+
+const COACHING=[
+  {id:"private",label:"Private Coaching",price:5000,color:PINK,sub:"$5,000 Retainer + Sessions",bullets:["Pre-session strategy call — does not count against retainer","Ethics workflow pre-installed before we start","Done-for-you installation of all systems purchased","Command Center build — custom to your firm","Customization through sessions — your templates, your voice, your workflow"],sessions:[{label:"2-Hour Zoom",price:"$600"},{label:"1-Hour Zoom",price:"$350"},{label:"30-Min Call",price:"$150"}]},
+  {id:"group",label:"FL Family Law AI Cohort",price:2500,color:ORANGE,sub:"$2,500 / attorney · 3 months · 5 max",bullets:["Must own at least one LAL system","5 attorneys max — hard cap","2 × 2-hr group Zooms/month — live demos, implementation, peer hot seats","1 × 1-hr private Zoom/attorney/month — your firm, your questions","All sessions recorded · Ethics workflow included","Subject to minimum 5 registrants — full refund if it doesn't fill"],sessions:null}
+];
+
+let selected=[];
+let coaching=null;
+
+function getDiscount(count,hasCoaching){
+  if(hasCoaching){if(count>=4)return 0.30;if(count===3)return 0.25;if(count===2)return 0.20;if(count>=1)return 0.10;return 0;}
+  else{if(count>=4)return 0.20;if(count===3)return 0.15;if(count===2)return 0.10;return 0;}
+}
+
+function renderSystems(){
+  const cats=[...new Set(SYSTEMS.map(s=>s.category))];
+  const container=document.getElementById('systems-container');
+  container.innerHTML='';
+  cats.forEach(cat=>{
+    const div=document.createElement('div');
+    div.className='cat-group';
+    div.innerHTML=`<div class="cat-label">${cat}</div>`;
+    const grid=document.createElement('div');
+    grid.className='grid2';
+    SYSTEMS.filter(s=>s.category===cat).forEach(sys=>{
+      const isSelected=selected.includes(sys.id);
+      const isDisabled=sys.upgradeOf&&!selected.includes(sys.upgradeOf);
+      const card=document.createElement('div');
+      card.className='sys-card'+(isSelected?' selected':'')+(isDisabled?' disabled':'');
+      card.style.borderLeftColor=isSelected?sys.color:'#2a2a2a';
+      if(isSelected){card.style.borderColor=sys.color;card.style.boxShadow=`0 0 18px ${sys.color}15`;}
+      card.innerHTML=`
+        <div class="check" style="background:${sys.color}">✓</div>
+        ${sys.badge?`<div class="badge" style="background:${sys.color}">${sys.badge}</div>`:''}
+        <div class="sys-name" style="color:${isSelected?sys.color:'#F7F5F0'}">${sys.name}${sys.sub?` <span style="color:#888;font-weight:400">— ${sys.sub}</span>`:''}</div>
+        <div class="sys-price" style="color:${sys.color}">$${sys.price.toLocaleString()}${sys.custom?`<span style="font-size:10px;color:#888;font-weight:400"> starting</span>`:''}</div>
+        <div class="sys-desc">${sys.desc}</div>
+        <button class="toggle-btn" onclick="toggleIncludes(event,'inc-${sys.id}')">What's Included ▼</button>
+        <ul class="includes" id="inc-${sys.id}" style="display:none">${sys.includes.map(i=>`<li style="color:${sys.color}15"><span style="color:${sys.color}">→</span> ${i}</li>`).join('')}</ul>
+      `;
+      card.querySelector('.includes').querySelectorAll('li').forEach(li=>{li.style.color='#777';});
+      if(!isDisabled)card.addEventListener('click',()=>toggleSystem(sys.id));
+      grid.appendChild(card);
+    });
+    div.appendChild(grid);
+    container.appendChild(div);
+  });
+}
+
+function renderCoaching(){
+  const container=document.getElementById('coaching-container');
+  container.innerHTML='';
+  COACHING.forEach(c=>{
+    const isSelected=coaching===c.id;
+    const card=document.createElement('div');
+    card.className='coach-card'+(isSelected?' selected':'');
+    card.style.borderLeftColor=isSelected?c.color:'#2a2a2a';
+    if(isSelected){card.style.borderColor=c.color;card.style.boxShadow=`0 0 18px ${c.color}15`;}
+    card.innerHTML=`
+      <div class="check" style="background:${c.color}">✓</div>
+      <div class="coach-type" style="color:${c.color}">${c.label}</div>
+      <div class="coach-name" style="color:${isSelected?c.color:'#F7F5F0'}">${c.sub}</div>
+      <ul class="coach-includes">${c.bullets.map(b=>`<li><span style="color:${c.color}">→</span> ${b}</li>`).join('')}</ul>
+      ${c.sessions?`<div class="sessions">${c.sessions.map(s=>`<div class="session"><div class="sp">${s.price}</div><div class="sl2">${s.label}</div></div>`).join('')}</div>`:''}
+    `;
+    card.addEventListener('click',()=>toggleCoaching(c.id));
+    container.appendChild(card);
+  });
+}
+
+function toggleIncludes(e,id){
+  e.stopPropagation();
+  const el=document.getElementById(id);
+  const btn=e.target;
+  if(el.style.display==='none'){el.style.display='block';btn.textContent='Hide ▲';}
+  else{el.style.display='none';btn.textContent="What's Included ▼";}
+}
+
+function toggleSystem(id){
+  const sys=SYSTEMS.find(s=>s.id===id);
+  if(sys.upgradeOf&&!selected.includes(sys.upgradeOf))return;
+  if(selected.includes(id)){
+    const rem=[id];
+    SYSTEMS.forEach(s=>{if(s.upgradeOf===id&&selected.includes(s.id))rem.push(s.id);});
+    selected=selected.filter(x=>!rem.includes(x));
+  } else {
+    selected=[...selected,id];
+  }
+  renderSystems();
+  updatePanel();
+}
+
+function toggleCoaching(id){
+  coaching=coaching===id?null:id;
+  renderCoaching();
+  updatePanel();
+}
+
+function updatePanel(){
+  const sel=SYSTEMS.filter(s=>selected.includes(s.id));
+  const coachObj=COACHING.find(c=>c.id===coaching);
+  const sysCount=sel.filter(s=>!s.upgradeOf).length;
+  const rate=getDiscount(sysCount,!!coaching);
+  const sysSub=sel.reduce((a,s)=>a+s.price,0);
+  const coachPrice=coachObj?coachObj.price:0;
+  const disc=Math.round(sysSub*rate);
+  const total=sysSub-disc+coachPrice;
+  const hasItems=sel.length>0||coaching;
+  const body=document.getElementById('panel-body');
+  const footer=document.getElementById('panel-footer');
+
+  if(!hasItems){
+    body.innerHTML='<div class="panel-empty">Select systems and coaching on the left to build your package.</div>';
+    footer.style.display='none';
+    return;
+  }
+
+  let html='';
+  if(sel.length>0){
+    html+=`<div class="panel-section-label">Systems</div>`;
+    sel.forEach(s=>{
+      html+=`<div class="line-item" style="border-left:2px solid ${s.color}">
+        <div style="flex:1;margin-right:6px"><div class="li-name">${s.name}${s.sub?` — ${s.sub}`:''}</div>${s.upgradeOf?`<div class="li-sub" style="color:${s.color}">Upgrade</div>`:''}</div>
+        <div class="li-price" style="color:${s.color}">$${s.price.toLocaleString()}</div>
+      </div>`;
+    });
+  }
+  if(coaching&&coachObj){
+    html+=`<div class="panel-section-label" style="margin-top:11px">Coaching</div>`;
+    html+=`<div class="line-item" style="border-left:2px solid ${coachObj.color}">
+      <div style="flex:1;margin-right:6px"><div class="li-name">${coachObj.label}</div><div class="li-sub" style="color:${coachObj.color}">Retainer</div></div>
+      <div class="li-price" style="color:${coachObj.color}">$${coachObj.price.toLocaleString()}</div>
+    </div>`;
+  }
+  if(disc>0){
+    html+=`<div class="discount-box">
+      <div class="dl">Discount Applied${coaching?' + Coaching Tier':''}</div>
+      <div class="dr"><span class="dt">${(rate*100).toFixed(0)}% off ${sysCount} system${sysCount>1?'s':''}${coaching?' + coaching':''}</span><span class="dv">−$${disc.toLocaleString()}</span></div>
+    </div>`;
+  }
+  html+=`<div class="ethics-box"><div class="et">✓ Ethics Workflow Included</div><div class="es">Included. No exceptions. No add-on fee.</div></div>`;
+  body.innerHTML=html;
+
+  let subHTML='';
+  subHTML+=`<div class="subtotal-row"><span class="sr-label" style="color:#888">Systems Subtotal</span><span class="sr-val" style="color:#888">$${sysSub.toLocaleString()}</span></div>`;
+  if(disc>0)subHTML+=`<div class="subtotal-row"><span class="sr-label" style="color:${LIME}">Discount (${(rate*100).toFixed(0)}%)</span><span class="sr-val" style="color:${LIME}">−$${disc.toLocaleString()}</span></div>`;
+  if(coaching&&coachObj)subHTML+=`<div class="subtotal-row"><span class="sr-label" style="color:#888">Coaching Retainer</span><span class="sr-val" style="color:#888">$${coachPrice.toLocaleString()}</span></div>`;
+  document.getElementById('subtotals').innerHTML=subHTML;
+  document.getElementById('total-val').textContent=`$${total.toLocaleString()}`;
+  footer.style.display='block';
+}
+
+function scrollTo(id){
+  document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function generatePDF(){
+  const sel=SYSTEMS.filter(s=>selected.includes(s.id));
+  const coachObj=COACHING.find(c=>c.id===coaching);
+  const sysCount=sel.filter(s=>!s.upgradeOf).length;
+  const rate=getDiscount(sysCount,!!coaching);
+  const sysSub=sel.reduce((a,s)=>a+s.price,0);
+  const coachPrice=coachObj?coachObj.price:0;
+  const disc=Math.round(sysSub*rate);
+  const total=sysSub-disc+coachPrice;
+  if(sel.length===0&&!coaching){alert('Please select at least one system before downloading.');return;}
+  const rows=sel.map(s=>`<tr><td style="padding:9px 0;border-bottom:1px solid #252525;color:#F7F5F0;font-size:13px;">${s.name}${s.sub?` — ${s.sub}`:''}${s.upgradeOf?' <span style="font-size:10px;color:#FF6B00;">(Upgrade)</span>':''}</td><td style="padding:9px 0;border-bottom:1px solid #252525;text-align:right;font-size:14px;font-weight:700;color:${s.color};">$${s.price.toLocaleString()}</td></tr>`).join('');
+  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>My LAL Selection</title>
+<style>body{background:#0A0A0A;color:#F7F5F0;font-family:Arial,sans-serif;padding:40px;margin:0;}
+.bar{height:4px;background:linear-gradient(to right,#FF1F8E 25%,#FF6B00 25% 50%,#C8D400 50% 75%,#00B5B8 75%);margin-bottom:28px;}
+h1{font-size:26px;font-weight:900;margin:0 0 4px;}.tag{color:#FF1F8E;font-size:10px;text-transform:uppercase;letter-spacing:2px;margin-bottom:20px;display:block;}
+.box{background:#161616;border:1px solid #252525;padding:18px 22px;margin-bottom:16px;border-radius:3px;}
+.box-title{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#FF6B00;font-weight:700;margin-bottom:12px;}
+table{width:100%;border-collapse:collapse;}
+.ethics{background:#0a1a1a;border-left:3px solid #00B5B8;padding:10px 14px;margin-bottom:16px;color:#00B5B8;font-size:11px;border-radius:2px;}
+.next{background:#1C1C1C;border:1px solid #2e2e2e;padding:18px 22px;border-radius:3px;}
+.next h3{font-size:14px;font-weight:700;margin-bottom:10px;}.next p{font-size:12px;color:#888;line-height:1.7;}.next a{color:#FF1F8E;}
+.note{font-size:9px;color:#333;text-align:center;margin-top:10px;}
+@media print{body{background:#0A0A0A!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}}
+</style></head><body>
+<div class="bar"></div><h1>LEGAL AUTHORITY LAB</h1>
+<span class="tag">My AI Smart Workflow Selection — legalauthoritylab.com</span>
+<div class="box"><div class="box-title">Selected Systems</div>
+<table>${rows}
+${disc>0?`<tr><td style="padding:8px 0;color:#C8D400;font-size:12px;">Multi-System Discount (${(rate*100).toFixed(0)}%${coaching?' + coaching bonus':''})</td><td style="text-align:right;color:#C8D400;font-size:13px;font-weight:700;">−$${disc.toLocaleString()}</td></tr>`:''}
+${coachObj?`<tr><td style="padding:8px 0;border-bottom:1px solid #252525;color:#F7F5F0;font-size:13px;">${coachObj.label} — Coaching Retainer</td><td style="text-align:right;font-size:14px;font-weight:700;color:#FF6B00;">$${coachObj.price.toLocaleString()}</td></tr>`:''}
+<tr><td style="padding:12px 0 0;font-size:16px;font-weight:900;color:#F7F5F0;">Total Investment</td><td style="padding:12px 0 0;text-align:right;font-size:20px;font-weight:900;color:#FF1F8E;">$${total.toLocaleString()}</td></tr>
+</table><p style="font-size:9px;color:#444;margin-top:10px;">One-time purchase. No subscriptions. Discount at contract signing only.</p></div>
+<div class="ethics">✓ Ethics Workflow Included — FL attorneys receive the Florida ethics workflow pre-installed. Out-of-state attorneys receive their state version or one free session to build it together.</div>
+<div class="next"><h3>Ready to Get Started?</h3><p>Email this document directly to Leisa:<br>
+<a href="mailto:leisa@legalauthoritylab.com"><strong>leisa@legalauthoritylab.com</strong></a><br><br>
+She will send the engagement agreement and payment link. Payment plans available — just ask.<br><br>
+Free Exploration Call (30 min): <a href="https://calendly.com/leisawintz/legal-authority-lab">calendly.com/leisawintz/legal-authority-lab</a><br>
+Free Private Demo (bring a real file): <a href="https://calendly.com/leisawintz/lal--demo">calendly.com/leisawintz/lal--demo</a>
+</p></div>
+<p class="note">Legal Authority Lab · legalauthoritylab.com · A DBA of Boss Lady Esq. · Family Matters Law Group, P.A. · FL Bar No. 64399</p>
+<p class="note">To save as PDF: File → Print → Save as PDF</p>
+</body></html>`;
+  const blob=new Blob([html],{type:'text/html'});
+  const url=URL.createObjectURL(blob);
+  const w=window.open(url,'_blank');
+  if(w)setTimeout(()=>URL.revokeObjectURL(url),10000);
+}
+
+// Intersection observer for nav
+const sections=['about','built','works','systems','coaching','discounts','engage'];
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      sections.forEach(s=>{
+        const el=document.getElementById('nav-'+s);
+        if(el)el.classList.toggle('active',s===e.target.id);
+      });
+    }
+  });
+},{rootMargin:'-25% 0px -65% 0px'});
+sections.forEach(s=>{const el=document.getElementById(s);if(el)observer.observe(el);});
+
+// Init
+renderSystems();
+renderCoaching();
+</script>
+</body>
+</html>
